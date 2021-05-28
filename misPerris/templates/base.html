@@ -1,0 +1,78 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mis Perris</title>
+    <link rel="stylesheet" href="{% static 'css/estilos.css' %}">
+    <link rel="stylesheet" href="{% static 'css/fontello.css' %}">
+    <script src="{% static 'js/jquery-3.6.0.min.js' %}"></script>
+    {% block css %}
+    
+    {% endblock css %}
+</head>
+
+<body>
+    <script>
+        $(document).ready(function () {
+            $.get("https://mindicador.cl/api/dolar",function (data) {
+                var vdolar= data.serie[0].valor;
+                $("#valor_dolar").html(vdolar);
+            })
+        });
+    </script>
+    <!-- cabecera del sitio web-->
+    <header>
+        <div class="contenedor">
+            <h1 class="icon-credit-card">Mis Perris</h1>
+            <!-- permite activar y desactivar el menu desplegable-->
+            <input type="checkbox" name="" id="menu-bar">
+            <label class="icon-cc-visa" for="menu-bar"></label>
+            <!-- menu-->
+            <nav class="menu">
+                <a href="{% url 'IND' %}">Inicio</a>
+                <a href="{% url 'GALE' %}">Galeria</a>
+                <a href="{% url 'CONT' %}">Contacto</a>
+                <a href="{% url 'QUIEN' %}">Quienes Somos</a>
+                {% if user.is_authenticated %}
+                    <a href="{% url 'ADMINUSUARIO' %}">Mis Mascotas Adoptadas</a>
+                    <a href="{% url 'REG' %}">Adm. Mascotas</a>               
+                    <a href="{% url 'CERRAR' %}">Cerrar Sesion</a>
+                    <a href="">Bienvenido: {{user.first_name}} {{user.last_name}}</a>    
+                {% else %}
+                    <a href="{% url 'LOGIN' %}">Login</a>
+                    <a href="{% url 'FORMU' %}">Registrar Usuario</a>
+                {% endif %}
+                
+                Dolar: <div id="valor_dolar" style="color: red;"> </div>
+            </nav>
+        </div>
+    </header>
+    <!-- pagina principal -->
+    <main>
+        <section id="banner">
+            <img src="{% static 'img/perro2.jpg' %}" alt="">
+            <div class="contenedor">
+                <h2>Mascotas contentas en mis perris</h2>
+                <p>Cual es la mejor mascota para usted</p>
+                <a href="">Leer Mas</a>
+            </div>
+        </section>
+    {% block contenido %}
+    
+
+    {% endblock contenido %}
+    </main>
+    {% block js %}
+    
+    {% endblock js %}
+    <footer>
+        <div class="contenedor">
+            <p>Mis Perris - Desarrollo Web</p>
+        </div>
+    </footer>
+</body>
+</html>

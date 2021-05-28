@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block css %}
+    <link rel="stylesheet" href="{% static 'css/formulario.css' %}">
+    <script src="{% static 'js/sweetalert2.all.min.js' %}"></script>
+{% endblock css %}
+
+{% block contenido %}
+        <script src="{% static 'js/jquery-3.6.0.min.js' %}"></script>
+        <section id="bienvenido">
+            <h2>Formulario de Inscripcion para Adoptar</h2>
+            <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Aut voluptatum dignissimos corrupti ut quia,
+                cupiditate, nostrum sed ex harum impedit alias et accusamus facere, id nisi! Quibusdam eligendi iusto
+                nobis.</p>
+        </section>
+
+        <!-- area de formulario-->
+        
+        <section id="formulario">
+
+            <form class="form-registro" action="{% url 'FORMU' %}" method="POST" onsubmit="return validaPass()">
+                {% csrf_token %}
+                <h2 class="form-titulo">Crear una Cuenta</h2>
+
+                <div class="contenedor-input">
+                    <input class="col-grande" type="text" name="txtNombre" id="txtNombre" placeholder="ingrese nombre" required minlength="3" maxlength="50" pattern="[A-Za-z ]{3,50}" title="solo ingrese texto minimo 3 y maximo 50 caracteres">
+                    <input class="col-grande" type="text" name="txtApellidos" id="txtApellidos" placeholder="ingrese apellidos" required minlength="3" maxlength="50" pattern="[A-Za-z ]{3,50}" title="solo ingrese texto minimo 3 y maximo 50 caracteres">
+                    <input class="col-grande" type="email" name="txtEmail" id="txtEmail" placeholder="ingrese correo" required>
+                    <input class="col-grande" type="text" name="txtUsuario" id="txtUsuario" placeholder="ingrese usuario" required minlength="4" maxlength="10">
+                    <input class="col-grande" type="password" name="txtPass1" id="txtPass1" placeholder="ingrese password" required minlength="8">
+                    <input class="col-grande" type="password" name="txtPass2" id="txtPass2" placeholder="repetir password" required minlength="8">
+                    
+                    <input class="btn-registrar" type="submit" value="Registrar">
+                    <input class="btn-registrar" type="reset" value="Limpiar">
+                </div>
+            </form>
+
+        </section>
+        <div style="text-align: center;color: red;font-size: xx-large;">
+            {{mensaje}}
+        </div>
+{% endblock contenido %}
+
+{% block js %}
+    <script>
+        function validaPass() {
+            var pass1= document.getElementById("txtPass1").value;
+            var pass2= document.getElementById("txtPass2").value;
+            if (pass1!=pass2) {
+                alert("contraseñas no son iguales");
+                return false;
+            }
+            return true;
+        }
+    </script>
+{% endblock js %}
+    

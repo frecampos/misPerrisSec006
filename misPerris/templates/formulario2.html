@@ -1,0 +1,100 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block css %}
+    <link rel="stylesheet" href="{% static 'css/formulario.css' %}">
+    <script src="{% static 'js/sweetalert2.all.min.js' %}"></script>   
+    <!-- implementar de Jquery Validate -->
+    <script src="{% static 'lib/jquery.js' %}"></script>
+    <script src="{% static 'dist_jqv/jquery.validate.min.js' %}"></script>
+{% endblock css %}
+
+
+{% block contenido %}
+        <section id="bienvenido">
+            <h2>Formulario de Inscripcion para Adoptar</h2>
+            <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Aut voluptatum dignissimos corrupti ut quia,
+                cupiditate, nostrum sed ex harum impedit alias et accusamus facere, id nisi! Quibusdam eligendi iusto
+                nobis.</p>
+        </section>
+
+        <!-- area de formulario-->
+        <script>
+            $(document).ready(
+                function () {
+                    
+                    //indicar que debe validar el formulario
+                    $("#formu").validate({
+                        rules:{
+                            txtNombre:{
+                                required: true,
+                                minlength: 3,
+                                maxlength: 50
+                            },
+                            txtApellidos: "required",
+                            txtPass1:{
+                                required: true,
+                                minlength: 5,
+                                maxlength: 15
+                            },
+                            txtPass2:{
+                                required: true,
+                                minlength: 5,
+                                maxlength: 15,
+                                equalTo: "#txtPass1"
+                            }
+                        },
+                        messages: {
+                            txtNombre:{
+                                required:"el nombre es necesario",
+                                minlength:"minimo largo de 3 caracteres",
+                                maxlength:"el maximo es de 50 caracteres"
+                            },
+                            txtApellidos: "el apellido es requerido",
+                            txtPass1:{
+                                required: "es requerido",
+                                minlength: "minimo 5 caracteres",
+                                maxlength: "maximo 15 caracteres"
+                            },
+                            txtPass2:{
+                                required: "es requerido",
+                                minlength: "minimo 5 caraceteres",
+                                maxlength: "maximo 15 caracteres",
+                                equalTo: "deben ser iguales las contraseñas"
+                            }
+                        }
+                    })
+                }
+            );
+        </script>
+        <section id="formulario">
+
+            <form class="form-registro" action="" method="POST" id="formu" >
+
+                <h2 class="form-titulo">Crear una Cuenta</h2>
+
+                <div class="contenedor-input">
+                    <input class="col-sm" type="text" name="txtNombre" id="txtNombre" placeholder="ingrese nombre"  pattern="[A-Za-z ]{3,50}" title="solo ingrese texto minimo 3 y maximo 50 caracteres">
+                    <input class="col-sm" type="text" name="txtApellidos" id="txtApellidos" placeholder="ingrese apellidos"  pattern="[A-Za-z ]{3,50}" title="solo ingrese texto minimo 3 y maximo 50 caracteres">
+                    <input class="col-xl" type="email" name="txtEmail" id="txtEmail" placeholder="ingrese correo" required>
+                    <input class="col-sm" type="text" name="txtUsuario" id="txtUsuario" placeholder="ingrese usuario" >
+                    <input class="col-sm" type="password" name="txtPass1" id="txtPass1" placeholder="ingrese password" >
+                    <input class="col-sm" type="password" name="txtPass2" id="txtPass2" placeholder="ingrese nuevamente la password" >
+                    <input class="col-sm" type="text" name="txtTelefono" id="txtTelefono" placeholder="ingrese telefono" required minlength="8" pattern="[0-9]{8,9}" title="ingrese un numero telefonico valido ej. 232885625">
+                    <input class="col-sm" type="text" name="txtRut" id="txtRut" placeholder="ingrese rut Ej. 12345678-9" required minlength="9" maxlength="10">
+                    <input class="col-sm" type="date" name="txtFechaNaci" id="txtFechaNaci"  required>
+
+                    <input class="btn-registrar" type="submit" value="Registrar">
+                   
+                </div>
+            </form>
+
+        </section>
+{% endblock contenido %}
+
+       
+       
+  
+
+   
+ 

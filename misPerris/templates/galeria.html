@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'dist/css/lightbox.min.css' %}">
+{% endblock css %}
+
+{% block contenido %}
+<section id="bienvenido">
+    <h2>Galeria de Imagenes</h2>
+    <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Aut voluptatum dignissimos corrupti ut quia,
+        cupiditate, nostrum sed ex harum impedit alias et accusamus facere, id nisi! Quibusdam eligendi iusto
+        nobis.</p>
+
+    <form action="{% url 'FILTROC' %}" method="post">
+        {% csrf_token %}
+        Filtro por Categoria de Mascota:
+        <select name="cboCategoria" id="cboCategoria">
+            {% for reg in categorias %}
+            <option>{{reg.nombre}}</option>
+            {% endfor %}
+        </select>
+        <input type="submit" value="Filtrar">
+    </form>
+    <form action="{% url 'FILTROD' %}" method="post">
+        {% csrf_token %}
+        Filtro por Descripcion de Mascota:
+        <input type="text" name="txtDesc" id="txtDesc">
+        <input type="submit" value="Filtrar">
+    </form>
+
+    <input type="button" value="Perros" onclick="javascript:location.href='/filtro_cate/Perros/'">
+    
+    <input type="button" value="Gatos" onclick="javascript:location.href='/filtro_cate/Gatos/'">
+    
+    <input type="button" value="Pajaros" onclick="javascript:location.href='/filtro_cate/Pajaros/'">
+
+</section>
+
+<section id="galeria">
+    {% for item in mascotas %}
+    <div>
+        <a href="{{item.imagen.url}}" data-lightbox="perros" data-title="{{item.descripcion}}">
+            <img src="{{item.imagen.url}}" alt="">
+        </a>
+        <h3>{{item.nombre}}</h3>
+        <h4>
+            <a href="{% url 'FICHA' item.nombre %}">Ver Ficha</a>
+        </h4>
+    </div>
+    {% endfor %}
+</section>
+<div style="text-align: center;color: red;font-size: xx-large;">
+    {{cantidad}}
+</div>
+{% endblock contenido %}
+
+
+{% block js %}
+<script src="{% static 'dist/js/lightbox-plus-jquery.min.js' %}"></script>
+{% endblock js %}

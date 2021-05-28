@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mis Perris</title>
+    <link rel="stylesheet" href="css/estilos.css">
+    <link rel="stylesheet" href="css/fontello.css">
+    <link rel="stylesheet" href="dist/css/lightbox.min.css">
+    <script src="js/jquery-3.6.0.min.js"></script>
+</head>
+
+<body>
+    <!-- cabecera del sitio web-->
+    <header>
+        <div class="contenedor">
+            <h1 class="icon-credit-card">Mis Perris</h1>
+            <!-- permite activar y desactivar el menu desplegable-->
+            <input type="checkbox" name="" id="menu-bar">
+            <label class="icon-cc-visa" for="menu-bar"></label>
+            <!-- menu-->
+            <nav class="menu">
+                <a href="index.html">Inicio</a>
+                <a href="galeria.html">Galeria</a>
+                <a href="formulario.html">Formulario</a>
+                <a href="">Quienes Somos</a>
+            </nav>
+        </div>
+    </header>
+    <!-- pagina principal -->
+    <main>
+        <section id="banner">
+            <img src="img/perro2.jpg" alt="">
+            <div class="contenedor">
+                <h2>Mascotas contentas en mis perris</h2>
+                <p>Cual es la mejor mascota para usted</p>
+                <a href="">Leer Mas</a>
+            </div>
+        </section>
+
+        <section id="bienvenido">
+            <h2>Galeria de Imagenes para la venta</h2>
+            <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Aut voluptatum dignissimos corrupti ut quia,
+                cupiditate, nostrum sed ex harum impedit alias et accusamus facere, id nisi! Quibusdam eligendi iusto
+                nobis.</p>
+            <input type="button" value="Valor Dolar Actual" onclick="calculo()">
+            <div id="valor_dolar"></div>
+            <h1>Valor de la UF</h1>
+            <div id="mensaje_uf"></div>
+        </section>
+
+        <section id="galeria">
+            <div>
+                <a href="img/perro1.jpg" data-lightbox="perros" data-title="perruno simpatico">
+                    <img src="img/perro1.jpg" alt="">
+                </a>
+                <h3>Lula</h3>
+                <h4>Dolares:$5</h4>
+                <input type="hidden" name="txtValorPerro1" id="txtValorPerro1" value="5">
+                <div id="txtValorPesosPerro1"></div>
+            </div>
+            <div>
+                <a href="img/perro2.jpg" data-lightbox="perros" data-title="es un peque">
+                    <img src="img/perro2.jpg" alt="">
+                </a>
+                <h3>Chuleta</h3>
+                <h4>Dolares: $2</h4>
+            </div>
+            <div>
+                <a href="img/perro3.jpg" data-lightbox="perros" data-title="es lindo">
+                    <img src="img/perro3.jpg" alt="">
+                </a>
+                <h3>Asincrono</h3>
+                <h4>Dolares: $15</h4>
+            </div>
+            <div>
+                <a href="img/perro4.jpg" data-lightbox="perros" data-title="es lindo">
+                    <img src="img/perro4.jpg" alt="">
+                </a>
+                <h3>Cuchufli</h3>
+                <h4>Dolares: $9</h4>
+            </div>
+            <div>
+                <a href="img/perro5.jpg" data-lightbox="perros" data-title="es lindo">
+                    <img src="img/perro5.jpg" alt="">
+                </a>
+                <h3>Lalo</h3>
+                <h4>Dolares: $4</h4>
+            </div>
+            <div>
+                <a href="img/perro6.png" data-lightbox="perros" data-title="es lindo">
+                    <img src="img/perro6.png" alt="">
+                </a>
+                <h3>Tuna</h3>
+                <h4>Dolares: $10</h4>
+            </div>
+            <div>
+                <a href="img/perro7.jpg" data-lightbox="perros" data-title="es lindo">
+                    <img src="img/perro7.jpg" alt="">
+                </a>
+                <h3>Mc. Perro</h3>
+                <h4>Dolares: $3</h4>
+            </div>
+            <div>
+                <a href="img/perro8.jpg" data-lightbox="perros" data-title="es lindo">
+                    <img src="img/perro8.jpg" alt="">
+                </a>
+                <h3>Lagrimas</h3>
+                <h4>Dolares: $1</h4>
+            </div>
+
+        </section>
+
+    </main>
+    <script>
+        $(document).ready(function() {
+            //recuperar_dolar();
+            $.get("https://mindicador.cl/api/uf",function(data) {
+                var uf=data.serie[0].valor;
+                $("#mensaje_uf").html(uf);
+            });
+        });
+    </script>
+    
+    <script>
+        var dolar=0;
+
+        function calculo() {
+            var perro1= document.getElementById('txtValorPerro1').value;
+            var mult = perro1 * dolar;
+            //alert('Valor Perro:'+perro1+ ' Valor Dolar:'+dolar+ ' Valor Perro:'+mult);
+            document.getElementById('txtValorPesosPerro1').innerHTML=mult;
+         }
+        function recuperar_dolar() {
+            //alert('pincho recuperar dolar');
+            fetch("https://mindicador.cl/api/dolar")
+            .then(
+                function(response) {
+                    if (response.status!=200) {
+                        console.log("problema de conexion:"+response.status);
+                        return;
+                    }
+                    //alert('el servicio esta en linea');
+
+                    response.json().then(function(data) {
+                        console.log('Data es:'+data);
+                        var largo_data= data.serie.length;
+                        console.log('Largo Data:'+largo_data);
+                        //alert('Valor del Dolar actual es:'+data.serie[0].valor);
+                        dolar=data.serie[0].valor;
+                        document.getElementById('valor_dolar').innerHTML=data.serie[0].valor;
+                    })
+                }
+            ).catch(function(err) {
+                console.log('instruccion Fetch con error'+err);
+            });
+        }
+    </script>
+    <footer>
+        <div class="contenedor">
+            <p>Mis Perris - Desarrollo Web</p>
+        </div>
+    </footer>
+    <script src="dist/js/lightbox-plus-jquery.min.js"></script>
+</body>
+
+</html>
